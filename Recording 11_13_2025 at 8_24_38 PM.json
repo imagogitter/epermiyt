@@ -1,0 +1,399 @@
+{
+    "title": "Recording 11/13/2025 at 8:24:38 PM",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1045,
+            "height": 782,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "chrome://extensions/",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "chrome://extensions/",
+                    "title": "Extensions"
+                }
+            ]
+        },
+        {
+            "type": "navigate",
+            "url": "chrome://new-tab-page/",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "chrome://new-tab-page/",
+                    "title": "New Tab"
+                }
+            ]
+        },
+        {
+            "type": "navigate",
+            "url": "https://www.google.com/search?q=denver+epermits&oq=denver+epermits&gs_lcrp=EgZjaHJvbWUyDggAEEUYORhDGIAEGIoFMgYIARAjGCcyCwgCEAAYChgLGIAEMgsIAxAAGAoYCxiABDIICAQQABgWGB4yCAgFEAAYFhgeMgoIBhAAGAoYFhgeMggIBxAAGBYYHjIICAgQABgWGB4yCggJEAAYChgWGB7SAQgzMDQyajBqN6gCALACAA&sourceid=chrome&ie=UTF-8",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://www.google.com/search?q=denver+epermits&oq=denver+epermits&gs_lcrp=EgZjaHJvbWUyDggAEEUYORhDGIAEGIoFMgYIARAjGCcyCwgCEAAYChgLGIAEMgsIAxAAGAoYCxiABDIICAQQABgWGB4yCAgFEAAYFhgeMgoIBhAAGAoYFhgeMggIBxAAGBYYHjIICAgQABgWGB4yCggJEAAYChgWGB7SAQgzMDQyajBqN6gCALACAA&sourceid=chrome&ie=UTF-8",
+                    "title": ""
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "https://www.google.com/search?q=denver+epermits&oq=denver+epermits&gs_lcrp=EgZjaHJvbWUyDggAEEUYORhDGIAEGIoFMgYIARAjGCcyCwgCEAAYChgLGIAEMgsIAxAAGAoYCxiABDIICAQQABgWGB4yCAgFEAAYFhgeMgoIBhAAGAoYFhgeMggIBxAAGBYYHjIICAgQABgWGB4yCggJEAAYChgWGB7SAQgzMDQyajBqN6gCALACAA&sourceid=chrome&ie=UTF-8",
+            "selectors": [
+                [
+                    "aria/City and County of Denver | ePermit online Accela https://aca-prod.accela.com › denver",
+                    "aria/City and County of Denver | ePermit online"
+                ],
+                [
+                    "#_AKEWaaveEaKMvMcP8cqjgQs_37"
+                ],
+                [
+                    "xpath///*[@id=\"_AKEWaaveEaKMvMcP8cqjgQs_37\"]"
+                ],
+                [
+                    "pierce/#_AKEWaaveEaKMvMcP8cqjgQs_37"
+                ]
+            ],
+            "offsetY": 30.46875,
+            "offsetX": 111,
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://aca-prod.accela.com/denver/default.aspx",
+                    "title": ""
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/denver/default.aspx",
+            "selectors": [
+                [
+                    "aria/Login",
+                    "aria/[role=\"generic\"]"
+                ],
+                [
+                    "#ctl00_HeaderNavigation_lblLogin"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_HeaderNavigation_lblLogin\"]"
+                ],
+                [
+                    "pierce/#ctl00_HeaderNavigation_lblLogin"
+                ],
+                [
+                    "text/Login"
+                ]
+            ],
+            "offsetY": 7.953125,
+            "offsetX": 24.578125,
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://aca-prod.accela.com/DENVER/Login.aspx",
+                    "title": ""
+                }
+            ]
+        },
+        {
+            "type": "change",
+            "value": "jer@gmx.com",
+            "selectors": [
+                [
+                    "aria/USERNAME OR E-MAIL:*"
+                ],
+                [
+                    "#username"
+                ],
+                [
+                    "xpath///*[@id=\"username\"]"
+                ],
+                [
+                    "pierce/#username"
+                ]
+            ],
+            "frame": [
+                0
+            ],
+            "target": "https://aca-prod.accela.com/DENVER/Login.aspx"
+        },
+        {
+            "type": "change",
+            "value": "Depw8869!",
+            "selectors": [
+                [
+                    "aria/PASSWORD:*"
+                ],
+                [
+                    "#passwordRequired"
+                ],
+                [
+                    "xpath///*[@id=\"passwordRequired\"]"
+                ],
+                [
+                    "pierce/#passwordRequired"
+                ]
+            ],
+            "frame": [
+                0
+            ],
+            "target": "https://aca-prod.accela.com/DENVER/Login.aspx"
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Login.aspx",
+            "selectors": [
+                [
+                    "aria/SIGN IN",
+                    "aria/[role=\"generic\"]"
+                ],
+                [
+                    "div:nth-of-type(5) span"
+                ],
+                [
+                    "xpath///*[@id=\"FirstAnchorInACAMainContent\"]/app-login-screen/div/p-card/div/div/div/aca-login-panel/form/div[5]/accela-button-primary/div/button/span"
+                ],
+                [
+                    "pierce/div:nth-of-type(5) span"
+                ]
+            ],
+            "offsetY": 12.8125,
+            "offsetX": 71,
+            "frame": [
+                0
+            ],
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://aca-prod.accela.com/DENVER/Dashboard.aspx",
+                    "title": ""
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Dashboard.aspx",
+            "selectors": [
+                [
+                    "aria/Development Services"
+                ],
+                [
+                    "#span_tab_1 a"
+                ],
+                [
+                    "xpath///*[@id=\"span_tab_1\"]/table/tbody/tr/td[2]/div/a"
+                ],
+                [
+                    "pierce/#span_tab_1 a"
+                ]
+            ],
+            "offsetY": 11.890625,
+            "offsetX": 91.734375,
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://aca-prod.accela.com/DENVER/Cap/CapHome.aspx?module=Development&TabName=Development&TabList=Home%7C0%7CDevelopment%7C1%7CLicenses%7C2%7CContractors%7C3%7CROW%7C4%7CConveyance%7C5%7CFire%7C6%7CParksRecreation%7C7%7CCurrentTabIndex%7C1",
+                    "title": ""
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapHome.aspx?module=Development&TabName=Development&TabList=Home%7C0%7CDevelopment%7C1%7CLicenses%7C2%7CContractors%7C3%7CROW%7C4%7CConveyance%7C5%7CFire%7C6%7CParksRecreation%7C7%7CCurrentTabIndex%7C1",
+            "selectors": [
+                [
+                    "aria/Record Number:"
+                ],
+                [
+                    "#ctl00_PlaceHolderMain_generalSearchForm_txtGSPermitNumber"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_generalSearchForm_txtGSPermitNumber\"]"
+                ],
+                [
+                    "pierce/#ctl00_PlaceHolderMain_generalSearchForm_txtGSPermitNumber"
+                ]
+            ],
+            "offsetY": 17.109375,
+            "offsetX": 126.5
+        },
+        {
+            "type": "change",
+            "value": "%demo%",
+            "selectors": [
+                [
+                    "aria/Record Number:"
+                ],
+                [
+                    "#ctl00_PlaceHolderMain_generalSearchForm_txtGSPermitNumber"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_generalSearchForm_txtGSPermitNumber\"]"
+                ],
+                [
+                    "pierce/#ctl00_PlaceHolderMain_generalSearchForm_txtGSPermitNumber"
+                ]
+            ],
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapHome.aspx?module=Development&TabName=Development&TabList=Home%7C0%7CDevelopment%7C1%7CLicenses%7C2%7CContractors%7C3%7CROW%7C4%7CConveyance%7C5%7CFire%7C6%7CParksRecreation%7C7%7CCurrentTabIndex%7C1"
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapHome.aspx?module=Development&TabName=Development&TabList=Home%7C0%7CDevelopment%7C1%7CLicenses%7C2%7CContractors%7C3%7CROW%7C4%7CConveyance%7C5%7CFire%7C6%7CParksRecreation%7C7%7CCurrentTabIndex%7C1",
+            "selectors": [
+                [
+                    "#ctl00_PlaceHolderMain_btnNewSearch"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_btnNewSearch\"]"
+                ],
+                [
+                    "pierce/#ctl00_PlaceHolderMain_btnNewSearch"
+                ]
+            ],
+            "offsetY": 28.546875,
+            "offsetX": 26.5
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapHome.aspx?module=Development&TabName=Development&TabList=Home%7C0%7CDevelopment%7C1%7CLicenses%7C2%7CContractors%7C3%7CROW%7C4%7CConveyance%7C5%7CFire%7C6%7CParksRecreation%7C7%7CCurrentTabIndex%7C1",
+            "selectors": [
+                [
+                    "aria/2025-DEMO-0000658[role=\"link\"]",
+                    "aria/[role=\"generic\"]"
+                ],
+                [
+                    "#ctl00_PlaceHolderMain_dgvPermitList_gdvPermitList_ctl02_lblPermitNumber1"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_dgvPermitList_gdvPermitList_ctl02_lblPermitNumber1\"]"
+                ],
+                [
+                    "pierce/#ctl00_PlaceHolderMain_dgvPermitList_gdvPermitList_ctl02_lblPermitNumber1"
+                ],
+                [
+                    "text/2025-DEMO-0000658"
+                ]
+            ],
+            "offsetY": 13.546875,
+            "offsetX": 37.6875,
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://aca-prod.accela.com/DENVER/Cap/CapDetail.aspx?Module=Development&TabName=Development&capID1=25CAP&capID2=00000&capID3=04ZA1&agencyCode=DENVER&IsToShowInspection=",
+                    "title": ""
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapDetail.aspx?Module=Development&TabName=Development&capID1=25CAP&capID2=00000&capID3=04ZA1&agencyCode=DENVER&IsToShowInspection=",
+            "selectors": [
+                [
+                    "aria/Record Info"
+                ],
+                [
+                    "div.record-nav > ul > li:nth-of-type(1) > a"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_dvContent\"]/div[2]/ul/li[1]/a"
+                ],
+                [
+                    "pierce/div.record-nav > ul > li:nth-of-type(1) > a"
+                ],
+                [
+                    "text/Record Info"
+                ]
+            ],
+            "offsetY": 25.484375,
+            "offsetX": 66.5
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapDetail.aspx?Module=Development&TabName=Development&capID1=25CAP&capID2=00000&capID3=04ZA1&agencyCode=DENVER&IsToShowInspection=",
+            "selectors": [
+                [
+                    "aria/View Additional Locations>>"
+                ],
+                [
+                    "#link_additional_locations"
+                ],
+                [
+                    "xpath///*[@id=\"link_additional_locations\"]"
+                ],
+                [
+                    "pierce/#link_additional_locations"
+                ],
+                [
+                    "text/View Additional"
+                ]
+            ],
+            "offsetY": 11.5,
+            "offsetX": 16.5
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapDetail.aspx?Module=Development&TabName=Development&capID1=25CAP&capID2=00000&capID3=04ZA1&agencyCode=DENVER&IsToShowInspection=",
+            "selectors": [
+                [
+                    "div.aca_wrapper > div:nth-of-type(1)"
+                ],
+                [
+                    "xpath///*[@id=\"aspnetForm\"]/div[4]/div[1]"
+                ],
+                [
+                    "pierce/div.aca_wrapper > div:nth-of-type(1)"
+                ]
+            ],
+            "offsetY": 351,
+            "offsetX": 15.5,
+            "duration": 3617
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapDetail.aspx?Module=Development&TabName=Development&capID1=25CAP&capID2=00000&capID3=04ZA1&agencyCode=DENVER&IsToShowInspection=",
+            "selectors": [
+                [
+                    "aria/Payments"
+                ],
+                [
+                    "div.record-nav > ul > li:nth-of-type(2) > a"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_dvContent\"]/div[2]/ul/li[2]/a"
+                ],
+                [
+                    "pierce/div.record-nav > ul > li:nth-of-type(2) > a"
+                ],
+                [
+                    "text/Payments"
+                ]
+            ],
+            "offsetY": 29.484375,
+            "offsetX": 78.5
+        },
+        {
+            "type": "click",
+            "target": "https://aca-prod.accela.com/DENVER/Cap/CapDetail.aspx?Module=Development&TabName=Development&capID1=25CAP&capID2=00000&capID3=04ZA1&agencyCode=DENVER&IsToShowInspection=",
+            "selectors": [
+                [
+                    "div.record-nav > ul"
+                ],
+                [
+                    "xpath///*[@id=\"ctl00_PlaceHolderMain_dvContent\"]/div[2]/ul"
+                ],
+                [
+                    "pierce/div.record-nav > ul"
+                ]
+            ],
+            "offsetY": 32.484375,
+            "offsetX": 560.5
+        }
+    ]
+}

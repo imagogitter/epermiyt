@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ePermits updates for 2025-11-13</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0 }
+    #map { width:100%; height:70vh }
+    .panel { padding:10px }
+    .thumb { width:160px; height:120px; object-fit:cover; border-radius:6px }
+    .marker-popup { width:260px }
+    .animated-list { display:flex; gap:8px; overflow-x:auto; padding:10px; scroll-behavior:smooth }
+  .card { transition: transform 220ms ease, box-shadow 220ms ease, opacity 300ms; border-radius:6px; padding:6px; opacity:0; transform: translateY(6px) }
+  .card.visible { opacity:1; transform: translateY(0) }
+  .card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 10px 22px rgba(0,0,0,0.18) }
+    /* simple auto-scroll helper: toggle via JS */
+    .auto-scrolling { scroll-snap-type: x mandatory }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h2 style="margin:0">ePermits updates for 2025-11-13</h2>
+      <div style="color:#666">0 records</div>
+    </div>
+    <div id="map"></div>
+    <h3>Updated records</h3>
+    <div class="animated-list">
+      
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const records = [];
+    const map = L.map('map').setView([39.7392, -104.9903], 11);
+    // Base tiles — OpenStreetMap (OSS-friendly)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    function mkPopup(r) {
+      let html = `<div class="marker-popup">`;
+      if (r.thumbnail_path) {
+        html += `<img src="data/${r.thumbnail_path.split('/').pop()}" style="width:220px;height:140px;object-fit:cover;border-radius:6px"><br>`;
+      }
+      html += `<strong>${r.permit_number}</strong><br>`;
+      html += `${r.address || ''}<br>`;
+      if (r.details) {
+        html += `<small>${r.details.type || ''}</small>`;
+      }
+      html += `</div>`;
+      return html;
+    }
+
+    records.forEach(r => {
+      if (r.lat && r.lon) {
+        const m = L.marker([r.lat, r.lon]).addTo(map);
+        m.bindPopup(mkPopup(r));
+      }
+    });
+
+    // Auto-scroll the gallery slowly; pause on hover
+    const gallery = document.querySelector('.animated-list');
+    if (gallery) {
+      let scrollAmount = 0;
+      let direction = 1;
+      let last = performance.now();
+      let running = true;
+      gallery.classList.add('auto-scrolling');
+      gallery.addEventListener('mouseenter', () => running = false);
+      gallery.addEventListener('mouseleave', () => { running = true; last = performance.now(); });
+      function step(ts) {
+        if (running) {
+          const dt = (ts - last) / 1000;
+          last = ts;
+          // scroll at ~40px/sec
+          gallery.scrollLeft += direction * 40 * dt;
+          if (gallery.scrollLeft <= 0) direction = 1;
+          if (gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth) direction = -1;
+        } else {
+          last = ts;
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      // reveal cards with a stagger
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), 80 * i));
+    }
+  </script>
+</body>
+</html>
