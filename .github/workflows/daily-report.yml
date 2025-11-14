@@ -53,11 +53,6 @@ jobs:
           echo "Generating landing page index.html for reports"
           python3 generate_landing.py
 
-      - name: Upload report artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: epermits-reports
-          path: data/reports/**
 
       - name: Deploy to GitHub Pages
         # publishes the contents of data/reports/ to the gh-pages branch
