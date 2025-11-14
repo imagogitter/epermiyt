@@ -39,7 +39,7 @@ jobs:
           if [ -f .env ]; then
             echo "Loading environment variables from .env"
             set -a
-            . .env
+            . .env || true
             set +a
           else
             echo ".env file not found, continuing without it"
