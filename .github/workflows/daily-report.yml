@@ -31,9 +31,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Playwright system dependencies
+        run: |
+          npx playwright install-deps
       - name: Install Playwright browsers
         run: |
-          # playwright Python package provides this installer
           python -m playwright install --with-deps
 
       - name: Load .env and run daily pipeline
