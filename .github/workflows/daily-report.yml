@@ -51,5 +51,4 @@ jobs:
         with:
           publish_dir: ./data/reports
           publish_branch: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
