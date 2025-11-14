@@ -35,15 +35,7 @@ jobs:
 
       - name: Load .env and run daily pipeline
         run: |
-          # Load environment variables from .env if present
-          if [ -f .env ]; then
-            echo "Loading environment variables from .env"
-            set -a
-            . .env || true
-            set +a
-          else
-            echo ".env file not found, continuing without it"
-          fi
+
           echo "Running daily pipeline (use Addy)"
           python3 run_daily.py --use-addy || true
 
