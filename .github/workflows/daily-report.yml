@@ -36,23 +36,15 @@ jobs:
           # playwright Python package provides this installer
           python -m playwright install --with-deps
 
-      - name: Run daily pipeline
-        env:
-          # Provide secrets in the repository settings (Settings -> Secrets -> Actions)
-          EPERMITS_USERNAME: ${{ secrets.EPERMITS_USERNAME }}
-          EPERMITS_PASSWORD: ${{ secrets.EPERMITS_PASSWORD }}
-          ADDY_API_KEY: ${{ secrets.ADDY_API_KEY }}
-          ADDY_API_URL: ${{ secrets.ADDY_API_URL }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-          EMAIL_TO: ${{ secrets.EMAIL_TO }}
-          GEOCODER_EMAIL: ${{ secrets.GEOCODER_EMAIL }}
-          REQUIRE_ADDY: 'TRUE'
+      - name: Load .env and run daily pipeline
         run: |
-          # optional: print a short header
+          # Load environment variables from .env if present
+          if [ -f .env ]; then
+            echo "Loading environment variables from .env"
+            set -a
+            source .env
+            set +a
+          fi
           echo "Running daily pipeline (use Addy)"
           python3 run_daily.py --use-addy || true
 
