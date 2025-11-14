@@ -39,7 +39,7 @@ jobs:
           if [ -f .env ]; then
             echo "Loading environment variables from .env"
             set -a
-            source .env
+            . .env
             set +a
           fi
           echo "Running daily pipeline (use Addy)"
