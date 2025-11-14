@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.43.1-focal
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
