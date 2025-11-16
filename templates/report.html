@@ -29,9 +29,10 @@
     <h3>Updated records</h3>
     <div class="animated-list">
       {% for r in records %}
-      <div class="card" style="min-width:180px; scroll-snap-align: center" data-index="{{ loop.index0 }}">
+      <div class="card" style="min-width:180px; scroll-snap-align: center; position:relative; border:1.5px solid #bbb; background:#f9f9fa; box-shadow:0 1px 4px #0001;" data-index="{{ loop.index0 }}">
         {% if r.thumbnail_path %}
         <img class="thumb" src="data/{{ r.thumbnail_path | basename }}" alt="thumb">
+        <div class="thumb-overlay" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(30,40,60,0.92);color:#fff;padding:10px;font-size:13px;z-index:2;border-radius:6px;pointer-events:none"></div>
         {% endif %}
         <div><strong>{{ r.permit_number }}</strong></div>
         <div>{{ r.address }}</div>
@@ -42,7 +43,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const records = {{ records | tojson }};
+const records = {{ records | tojson | safe }};
     const map = L.map('map').setView([39.7392, -104.9903], 11);
     // Base tiles — OpenStreetMap (OSS-friendly)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -51,7 +52,7 @@
     }).addTo(map);
 
     function mkPopup(r) {
-      let html = `<div class="marker-popup">`;
+      let html = `<div class='marker-popup' style='border:1.5px solid #bbb; background:#f9f9fa; border-radius:7px; padding:7px; min-width:160px;'>`;
       if (r.thumbnail_path) {
         html += `<img src="data/${r.thumbnail_path.split('/').pop()}" style="width:220px;height:140px;object-fit:cover;border-radius:6px"><br>`;
       }
@@ -64,12 +65,22 @@
       return html;
     }
 
-    records.forEach(r => {
+    // Map markers and marker lookup
+    const markerMap = {};
+    const markerGroup = [];
+    records.forEach((r, i) => {
       if (r.lat && r.lon) {
         const m = L.marker([r.lat, r.lon]).addTo(map);
         m.bindPopup(mkPopup(r));
+        markerMap[i] = m;
+        markerGroup.push(m.getLatLng());
       }
     });
+    // Fit map to all markers with a small border
+    if (markerGroup.length > 0) {
+      const bounds = L.latLngBounds(markerGroup);
+      map.fitBounds(bounds.pad(0.08)); // 8% border
+    }
 
     // Auto-scroll the gallery slowly; pause on hover
     const gallery = document.querySelector('.animated-list');
@@ -98,6 +109,28 @@
       // reveal cards with a stagger
       const cards = document.querySelectorAll('.card');
       cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), 80 * i));
+
+      // Mouseover details overlay and click-to-focus
+      cards.forEach((card, i) => {
+        const r = records[i];
+        const overlay = card.querySelector('.thumb-overlay');
+        if (overlay) {
+          card.addEventListener('mouseenter', () => {
+            overlay.style.display = 'block';
+            overlay.innerHTML = `<strong>${r.permit_number}</strong><br>${r.address || ''}<br>` +
+              (r.details && Object.keys(r.details).length ? `<hr style='border:0;border-top:1px solid #fff;margin:6px 0'>${Object.entries(r.details).map(([k,v]) => `<b>${k}:</b> ${v}`).join('<br>')}` : '');
+          });
+          card.addEventListener('mouseleave', () => {
+            overlay.style.display = 'none';
+          });
+        }
+        card.addEventListener('click', () => {
+          if (markerMap[i]) {
+            map.setView(markerMap[i].getLatLng(), 16, { animate: true });
+            markerMap[i].openPopup();
+          }
+        });
+      });
     }
   </script>
 </body>

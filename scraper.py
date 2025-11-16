@@ -71,14 +71,85 @@ def run_scrape(max_items=200):
 
         # Login flow based on recording
         page.goto('https://aca-prod.accela.com/DENVER/Login.aspx')
-        # Some pages embed login in iframe; try top-level selectors first
+        # Try multiple login strategies: top-level selectors, common alternatives, then any iframes.
+        logged_in = False
+
+        # Strategy A: top-level common selectors
         try:
-            page.fill('#username', EP_USER)
-            page.fill('#passwordRequired', EP_PASS)
-            page.click('text=SIGN IN')
-            page.wait_for_load_state('networkidle', timeout=15000)
+            for u_sel in ['#username', 'input[name="username"]', 'input[type="email"]']:
+                try:
+                    page.fill(u_sel, EP_USER)
+                    break
+                except Exception:
+                    continue
+            for p_sel in ['#passwordRequired', 'input[name="password"]', 'input[type="password"]']:
+                try:
+                    page.fill(p_sel, EP_PASS)
+                    break
+                except Exception:
+                    continue
+            # try several possible submit/button selectors
+            for btn in ['button[type="submit"]', 'text=SIGN IN', 'text="Sign in"', 'text="Sign In"']:
+                try:
+                    page.click(btn)
+                    page.wait_for_load_state('networkidle', timeout=15000)
+                    logged_in = True
+                    break
+                except Exception:
+                    continue
         except Exception:
-            print('Login attempt failed with top-level selectors; you may need to adapt selectors or check the page structure')
+            pass
+
+        # Strategy B: try alternate top-level flows (explicit fills)
+        if not logged_in:
+            try:
+                page.fill('#username', EP_USER)
+                page.fill('#passwordRequired', EP_PASS)
+                page.click('text=SIGN IN')
+                page.wait_for_load_state('networkidle', timeout=15000)
+                logged_in = True
+            except Exception:
+                pass
+
+        # Strategy C: look for login forms inside iframes
+        if not logged_in:
+            try:
+                for frame in page.frames:
+                    try:
+                        # try user/pass in this frame
+                        found_user = None
+                        for u_sel in ['#username', 'input[name="username"]', 'input[type="email"]']:
+                            if frame.query_selector(u_sel):
+                                frame.fill(u_sel, EP_USER)
+                                found_user = u_sel
+                                break
+                        found_pass = None
+                        for p_sel in ['#passwordRequired', 'input[name="password"]', 'input[type="password"]']:
+                            if frame.query_selector(p_sel):
+                                frame.fill(p_sel, EP_PASS)
+                                found_pass = p_sel
+                                break
+                        if not found_user and not found_pass:
+                            continue
+                        # try clicking submit within the frame
+                        for btn in ['button[type="submit"]', 'text=SIGN IN', 'text="Sign in"', 'text="Sign In"']:
+                            try:
+                                if frame.query_selector(btn):
+                                    frame.click(btn)
+                                    page.wait_for_load_state('networkidle', timeout=15000)
+                                    logged_in = True
+                                    break
+                            except Exception:
+                                continue
+                        if logged_in:
+                            break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
+
+        if not logged_in:
+            print('Login attempt failed with available strategies; adapt selectors or check the page structure')
 
         # Navigate to development permit search
         page.goto('https://aca-prod.accela.com/DENVER/Cap/CapHome.aspx?module=Development')
@@ -102,6 +173,9 @@ def run_scrape(max_items=200):
                 try:
                     text = a.inner_text().strip()
                     href = a.get_attribute('href')
+                    # Only add real URLs, skip javascript: and empty hrefs
+                    if not href or href.strip().lower().startswith('javascript:'):
+                        continue
                     if text and href and href not in seen_hrefs:
                         seen_hrefs.add(href)
                         permits.append({'text': text, 'href': href})
@@ -137,7 +211,15 @@ def run_scrape(max_items=200):
             if count >= max_items:
                 break
             try:
-                page.goto(item['href'])
+                # Normalize relative hrefs to absolute URLs before navigating.
+                href = item.get('href') or ''
+                if href and not href.lower().startswith('http'):
+                    try:
+                        from urllib.parse import urljoin
+                        href = urljoin(page.url or 'https://aca-prod.accela.com', href)
+                    except Exception:
+                        href = 'https://aca-prod.accela.com' + href if href.startswith('/') else 'https://aca-prod.accela.com/' + href
+                page.goto(href)
                 page.wait_for_load_state('networkidle', timeout=10000)
                 data = parse_permit_detail(page)
                 permit_number = data.get('permit_number') or item['text']
