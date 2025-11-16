@@ -65,15 +65,69 @@ const records = {{ records | tojson | safe }};
       return html;
     }
 
-    // Map markers and marker lookup
+    // Map markers, marker lookup, and thumbnail overlays
     const markerMap = {};
     const markerGroup = [];
+    const overlayLayer = L.layerGroup().addTo(map);
     records.forEach((r, i) => {
       if (r.lat && r.lon) {
+        // Marker and popup
         const m = L.marker([r.lat, r.lon]).addTo(map);
         m.bindPopup(mkPopup(r));
         markerMap[i] = m;
         markerGroup.push(m.getLatLng());
+        // Thumbnail overlay
+        if (r.thumbnail_path) {
+          const icon = L.divIcon({
+            className: 'thumb-map-icon',
+            html: `<img src='data/${r.thumbnail_path.split('/').pop()}' style='width:48px;height:36px;object-fit:cover;border:2px solid #fff;border-radius:6px;box-shadow:0 2px 8px #0006;transition:all .18s' data-idx='${i}'>`,
+            iconSize: [48, 36],
+            iconAnchor: [24, 18],
+            popupAnchor: [0, -18]
+          });
+          const thumbMarker = L.marker([r.lat, r.lon], { icon }).addTo(overlayLayer);
+          thumbMarker.on('mouseover', function(e) {
+            const img = this._icon.querySelector('img');
+            if (img) {
+              img.style.width = '180px';
+              img.style.height = '135px';
+              img.style.zIndex = 1000;
+              img.style.position = 'relative';
+              img.style.border = '3px solid #0077ff';
+              // Show details overlay
+              let overlay = document.createElement('div');
+              overlay.className = 'map-thumb-details';
+              overlay.style = 'position:absolute;top:0;left:100%;background:rgba(30,40,60,0.97);color:#fff;padding:10px;font-size:13px;z-index:2000;border-radius:6px;min-width:180px;max-width:320px;box-shadow:0 2px 12px #0008;margin-left:8px;';
+              overlay.innerHTML = `<strong>${r.permit_number}</strong><br>${r.address || ''}<br>` +
+                (r.details && Object.keys(r.details).length ? `<hr style='border:0;border-top:1px solid #fff;margin:6px 0'>${Object.entries(r.details).map(([k,v]) => `<b>${k}:</b> ${v}`).join('<br>')}` : '');
+              img.parentNode.appendChild(overlay);
+              img._detailsOverlay = overlay;
+            }
+          });
+          thumbMarker.on('mouseout', function(e) {
+            const img = this._icon.querySelector('img');
+            if (img) {
+              img.style.width = '48px';
+              img.style.height = '36px';
+              img.style.zIndex = '';
+              img.style.position = '';
+              img.style.border = '2px solid #fff';
+              if (img._detailsOverlay) {
+                img._detailsOverlay.remove();
+                img._detailsOverlay = null;
+              }
+            }
+          });
+          thumbMarker.on('click', function(e) {
+            // Link to original permit page if available
+            if (r.details && r.details.url) {
+              window.open(r.details.url, '_blank');
+            } else if (markerMap[i]) {
+              map.setView(markerMap[i].getLatLng(), 16, { animate: true });
+              markerMap[i].openPopup();
+            }
+          });
+        }
       }
     });
     // Fit map to all markers with a small border
@@ -81,6 +135,15 @@ const records = {{ records | tojson | safe }};
       const bounds = L.latLngBounds(markerGroup);
       map.fitBounds(bounds.pad(0.08)); // 8% border
     }
+  <style>
+    .thumb-map-icon img {
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .map-thumb-details {
+      pointer-events: none;
+    }
+  </style>
 
     // Auto-scroll the gallery slowly; pause on hover
     const gallery = document.querySelector('.animated-list');
